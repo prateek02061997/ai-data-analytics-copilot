@@ -260,6 +260,11 @@ def main() -> None:
         st.markdown("---")
         with st.expander("💬 Ask AI Analyst (Interactive Copilot & Dashboard Controller)", expanded=True):
             st.caption("Ask questions or control dashboard filters directly using natural language.")
+
+            for msg in st.session_state.ai_analyst_messages:
+                with st.chat_message(msg["role"]):
+                    st.write(msg["content"])
+
             dash_prompt = st.text_input("Type your question or dashboard command:", key="dash_quick_chat_input")
             if st.button("Ask AI Analyst", key="dash_quick_chat_btn") and dash_prompt:
                 st.session_state.ai_analyst_messages.append({"role": "user", "content": dash_prompt})
@@ -275,9 +280,7 @@ def main() -> None:
                         ai_model=ai_model,
                     )
                 st.session_state.ai_analyst_messages.append({"role": "assistant", "content": response})
-                if dashboard_changed:
-                    st.rerun()
-                st.markdown(response)
+                st.rerun()
 
     # ----------------------------------------------------
     # TAB 2: UNDERSTAND YOUR DATA (AUTOMATIC STATISTICAL ANALYSIS)
