@@ -89,6 +89,8 @@ def main() -> None:
         st.error(f"Configuration error: {exc}")
         st.stop()
 
+    ai_provider, ai_key, ai_model = _resolve_ai_provider(settings)
+
     st.markdown('<div class="main-header">AI BI Copilot</div>', unsafe_allow_html=True)
     st.markdown('<div class="sub-header">Executive Data Intelligence, Auto-Cleaning, Visualizations & Grounded AI Analyst</div>', unsafe_allow_html=True)
 
