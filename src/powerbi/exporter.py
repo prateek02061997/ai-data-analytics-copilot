@@ -75,12 +75,31 @@ def _dataframe_to_csv_bytes(dataframe: pd.DataFrame) -> bytes:
 
 
 def dataframe_to_excel_bytes(dataframe: pd.DataFrame) -> bytes:
-    """Convert a DataFrame into Excel .xlsx binary format."""
+    """Convert a DataFrame into Excel .xlsx binary format, removing timezones for openpyxl compatibility."""
     from io import BytesIO
 
+    clean_df = dataframe.copy()
+    for col in clean_df.columns:
+        if is_datetime64_any_dtype(clean_df[col]):
+            try:
+                if getattr(clean_df[col].dt, "tz", None) is not None:
+                    clean_df[col] = clean_df[col].dt.tz_localize(None)
+            except Exception:
+                clean_df[col] = clean_df[col].astype(str)
+
     buffer = BytesIO()
-    with pd.ExcelWriter(buffer, engine="openpyxl") as writer:
-        dataframe.to_excel(writer, index=False, sheet_name="Data")
+    try:
+        with pd.ExcelWriter(buffer, engine="openpyxl") as writer:
+            clean_df.to_excel(writer, index=False, sheet_name="Data")
+    except Exception:
+        # Fallback: convert any troublesome columns to strings for guaranteed export
+        for col in clean_df.columns:
+            if is_datetime64_any_dtype(clean_df[col]):
+                clean_df[col] = clean_df[col].astype(str)
+        buffer = BytesIO()
+        with pd.ExcelWriter(buffer, engine="openpyxl") as writer:
+            clean_df.to_excel(writer, index=False, sheet_name="Data")
+
     return buffer.getvalue()
 
 
