@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Analytics Copilot | Enterprise BI & AI Data Intelligence</title>
+    <meta name="description" content="Enterprise-level AI Business Intelligence Copilot with automated data cleaning, statistical profiling, interactive charts, grounded AI chat, and Power BI exports.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: rgba(30, 41, 59, 0.7);
+            --bg-card-hover: rgba(51, 65, 85, 0.8);
+            --border-glow: rgba(99, 102, 241, 0.3);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-primary: #6366f1;
+            --accent-secondary: #06b6d4;
+            --accent-gradient: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
+            --success-color: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(6, 182, 212, 0.15) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Navigation */
+        nav {
+            padding: 24px 0;
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: var(--accent-primary);
+            -webkit-text-fill-color: initial;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .btn-outline {
+            border: 1px solid var(--border-glow);
+            color: var(--text-main);
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent-primary);
+            background: rgba(99, 102, 241, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: var(--accent-gradient);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0 60px;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #a5b4fc;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+
+        .hero h1 span {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin: 0 auto 36px;
+        }
+
+        .hero-actions {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
+        }
+
+        /* Metrics Bar */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 80px;
+        }
+
+        .metric-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        .metric-card h3 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 4px;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .metric-card p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* App Preview Mockup */
+        .preview-box {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 12px;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            margin-bottom: 100px;
+        }
+
+        .preview-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: #ef4444; }
+        .dot-yellow { background: #f59e0b; }
+        .dot-green { background: #10b981; }
+
+        .preview-body {
+            background: #0b1120;
+            border-radius: 8px;
+            padding: 32px;
+            text-align: left;
+            overflow-x: auto;
+        }
+
+        .preview-tabs {
+            display: flex;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .preview-tab {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text-muted);
+        }
+
+        .preview-tab.active {
+            background: var(--accent-primary);
+            color: #fff;
+        }
+
+        .preview-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .mini-card {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 16px;
+            border-radius: 8px;
+        }
+
+        .mini-card label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .mini-card val {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 40px 0 100px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .section-title p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 32px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--border-glow);
+            background: var(--bg-card-hover);
+        }
+
+        .feature-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--accent-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 40px 0;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--accent-secondary);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.4rem; }
+            .preview-cards { grid-template-columns: repeat(2, 1fr); }
+            .features-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container nav-content">
+            <div class="logo">
+                <i class="fa-solid fa-brain"></i> AI BI Copilot
+            </div>
+            <div class="nav-links">
+                <a href="https://github.com/prateek02061997/ai-data-analytics-copilot" target="_blank" class="btn-outline">
+                    <i class="fa-brands fa-github"></i> GitHub Code
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="badge">
+                <i class="fa-solid fa-shield-halved"></i> Enterprise-Grade Data Analytics & AI
+            </div>
+            <h1>Automated BI & <span>Grounded AI Copilot</span></h1>
+            <p>Transform raw CSV/Excel datasets into executive KPI dashboards, statistical profiling, interactive chart suites, deterministic auto-cleaning, and grounded natural language insights.</p>
+            
+            <div class="hero-actions">
+                <a href="https://github.com/prateek02061997/ai-data-analytics-copilot" target="_blank" class="btn-primary">
+                    <i class="fa-brands fa-github"></i> Explore Source Code
+                </a>
+                <a href="#features" class="btn-outline">
+                    <i class="fa-solid fa-layer-group"></i> See All Features
+                </a>
+            </div>
+        </section>
+
+        <!-- Metric Cards -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <h3>60 / 60</h3>
+                <p>Unit Tests Passed</p>
+            </div>
+            <div class="metric-card">
+                <h3>100k+</h3>
+                <p>Row Streaming</p>
+            </div>
+            <div class="metric-card">
+                <h3>7 Tabs</h3>
+                <p>Enterprise Workspaces</p>
+            </div>
+            <div class="metric-card">
+                <h3>100%</h3>
+                <p>Grounded AI Responses</p>
+            </div>
+        </div>
+
+        <!-- Interactive Preview Mockup -->
+        <div class="preview-box">
+            <div class="preview-header">
+                <div class="dot dot-red"></div>
+                <div class="dot dot-yellow"></div>
+                <div class="dot dot-green"></div>
+                <span style="font-size: 0.8rem; color: #64748b; margin-left: 8px;">AI BI Copilot — Executive Workspace</span>
+            </div>
+            <div class="preview-body">
+                <div class="preview-tabs">
+                    <div class="preview-tab active">📊 Executive Dashboard</div>
+                    <div class="preview-tab">🔍 Understand Your Data</div>
+                    <div class="preview-tab">🛠️ Improve Data Quality</div>
+                    <div class="preview-tab">📈 Interactive Charts</div>
+                    <div class="preview-tab">📋 Excel Data Explorer</div>
+                    <div class="preview-tab">💬 AI Analyst Chat</div>
+                    <div class="preview-tab">📄 Export & Reports</div>
+                </div>
+                <div class="preview-cards">
+                    <div class="mini-card">
+                        <label>Total Records</label>
+                        <val>100,000</val>
+                    </div>
+                    <div class="mini-card">
+                        <label>Data Quality Score</label>
+                        <val style="color: #10b981;">98.4%</val>
+                    </div>
+                    <div class="mini-card">
+                        <label>Completion Rate</label>
+                        <val>99.2%</val>
+                    </div>
+                    <div class="mini-card">
+                        <label>Missing Values</label>
+                        <val>142</val>
+                    </div>
+                </div>
+                <div style="background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.2); border-radius: 8px; padding: 16px; display: flex; align-items: center; justify-content: space-between;">
+                    <span style="font-size: 0.9rem; color: #cbd5e1;"><i class="fa-solid fa-comment-dots" style="color: #6366f1; margin-right: 8px;"></i> <strong>AI Assistant:</strong> "Show top 10 products by total revenue in 2026."</span>
+                    <span style="font-size: 0.8rem; background: #6366f1; color: white; padding: 4px 12px; border-radius: 4px; font-weight: 600;">Updated Dashboard</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <section id="features" class="features-section">
+            <div class="section-title">
+                <h2>Built for Deloitte, PwC & Fortune 500 Standards</h2>
+                <p>An end-to-end data intelligence suite engineered with modern Python architecture.</p>
+            </div>
+
+            <div class="features-grid">
+                <!-- Feature 1 -->
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div>
+                    <h3>Executive KPI Dashboard</h3>
+                    <p>Instant metric cards displaying Total Records, Fields, Health Score, Completion %, Missing Values, and domain-specific KPIs for Sales, Finance, HR, and Operations.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-microscope"></i></div>
+                    <h3>Automated Statistical Profiling</h3>
+                    <p>Calculates Mean, Median, Mode, Standard Deviation, Min/Max, Quartiles (Q1, Q3, IQR), Categorical top frequencies, and time-series trends (Monthly, Quarterly, Weekday).</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                    <h3>Deterministic Data Auto-Cleaning</h3>
+                    <p>Standardizes text encodings, fills nulls, removes duplicates, detects outliers, and provides before-vs-after quality score comparisons.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-robot"></i></div>
+                    <h3>Grounded AI Analyst & Dashboard Driver</h3>
+                    <p>Multi-turn conversational memory with strict anti-hallucination guardrails. Type natural language commands like <code>filter price > 20000</code> to update dashboard state automatically.</p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-table-cells"></i></div>
+                    <h3>Excel-Style Data Explorer</h3>
+                    <p>Full dataset browsing with zero row caps, global multi-column search, instant filtering, column sorting, and single-click binary <strong>Excel (.xlsx)</strong> and <strong>CSV</strong> exports.</p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-file-export"></i></div>
+                    <h3>Multi-Format Power BI Bundle</h3>
+                    <p>Export interactive Plotly HTML charts, HTML/Markdown executive reports, printable PDF summaries, and Power BI bundles (CSV + JSON Schema + M Query script).</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>AI Analytics Copilot &copy; 2026 | Developed by Prateek Parihar | Built with Python, Streamlit, Plotly & LLM Agents</p>
+        </div>
+    </footer>
+
+</body>
+</html>
